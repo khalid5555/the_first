@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "799015951955",
+    "project_id": "the-first-56c6d",
+    "storage_bucket": "the-first-56c6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799015951955:android:805d19ed67d69cd92bf0a6",
+        "android_client_info": {
+          "package_name": "khalid.assuity.the_first"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799015951955-5c4rqarkahjp3740vtth5a4nmsb604v1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "khalid.assuity.the_first",
+            "certificate_hash": "b3261fb254b674f055c9089edc4c275bb4508838"
+          }
+        },
+        {
+          "client_id": "799015951955-33m8r8taslbq8rvnt4gjr4jfbj8pl951.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt7P8yDVhdzJwhKKuegv-R1_dmKe33OII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799015951955-33m8r8taslbq8rvnt4gjr4jfbj8pl951.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
