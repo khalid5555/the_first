@@ -10,6 +10,8 @@ import '../models/product_model.dart';
 
 class ProductInfo extends StatefulWidget {
   static String id = 'ProductInfo';
+
+  const ProductInfo({super.key});
   @override
   _ProductInfoState createState() => _ProductInfoState();
 }

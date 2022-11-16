@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:the_first/screen/login_screen.dart';
+import 'package:the_first/screen/login_view.dart';
 
 import '../widget screen/customtextfield.dart';
 
