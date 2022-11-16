@@ -16,11 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'The First',
-        theme: My_Themes.dk,
-        themeMode: ThemeMode.light,
-        darkTheme: My_Themes.dk,
-        home: const SingUp());
+      debugShowCheckedModeBanner: false,
+      title: 'The First',
+      theme: My_Themes.dk,
+      themeMode: ThemeMode.light,
+      darkTheme: My_Themes.dk,
+      home: const SingUp(),
+    );
   }
 }
