@@ -1,4 +1,4 @@
-import 'models/product_model.dart';
+import '../../models/product_model.dart';
 
 List<ProductModel> getProductByCategory(
     String dd, List<ProductModel> allproducts) {

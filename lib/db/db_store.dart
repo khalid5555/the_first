@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../constants.dart';
+import '../shared/utils/app_theme.dart';
 import '../models/product_model.dart';
 import '../models/user_model.dart';
 

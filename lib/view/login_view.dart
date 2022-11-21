@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:the_first/screen/singUp_view.dart';
-import 'package:the_first/widget%20screen/customtextfield.dart';
+import 'package:the_first/admin/admin.dart';
+import 'package:the_first/view/home_view.dart';
+import 'package:the_first/view/singUp_view.dart';
+
+import '../db/auth.dart';
+import '../models/user_model.dart';
+import '../shared/widgets/app_text_field.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
@@ -10,7 +15,7 @@ class LoginScreen extends StatelessWidget {
   late String _email, _password;
 
   LoginScreen({super.key});
-  // final _mauth = Auth();
+  final _mauth = Auth();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class LoginScreen extends StatelessWidget {
             child: ListView(
               children: [
                 SizedBox(height: height * 50),
-                CustomTextField(
+                AppTextField(
                   hint: 'ادخل الايميل',
                   icon: Icons.phone_android,
                   onClick: (val) {
@@ -36,7 +41,7 @@ class LoginScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                CustomTextField(
+                AppTextField(
                   hint: 'أدخل الرقم السري',
                   icon: Icons.admin_panel_settings,
                   keytyp: TextInputType.number,
@@ -53,33 +58,7 @@ class LoginScreen extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                       color: Colors.black,
-                      onPressed: () async {
-                        // if (_keyform.currentState!.validate()) {
-                        //   try {
-                        //     _keyform.currentState!.save();
-
-                        //     final res = await _mauth.signIn(_email, _password);
-                        //     updatelogin();
-                        //     if (res.user!.uid ==
-                        //             '9cCwmEojIderBAt420VaWpzHufS2' ||
-                        //         res.user!.uid ==
-                        //             '285001kIAJg7nSzz8eyBFkdMxZL2') {
-                        //       // Fluttertoast.showToast(
-                        //       //     msg: 'اهلا بيك كلنا حوليك ');
-                        //       Navigator.of(context)
-                        //           .pushReplacementNamed('admin.id');
-                        //     } else {
-                        //       Navigator.of(context)
-                        //           .pushReplacementNamed('productshow.id');
-                        //       // Fluttertoast.showToast(msg: 'اهلا بيك ');
-                        //     }
-                        //   } catch (e) {
-                        //     // Fluttertoast.showToast(
-                        //     //     msg: e.toString(),
-                        //     //     toastLength: Toast.LENGTH_LONG);
-                        //   }
-                        // }
-                      },
+                      onPressed: newMethod,
                       child: const Text(
                         'Login',
                         style: TextStyle(color: Colors.white, fontSize: 20),
@@ -102,7 +81,7 @@ class LoginScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         Get.off(
-                          () => SingUp(),
+                          () => const SingUp(),
                           transition: Transition.size,
                           duration: const Duration(seconds: 1),
                         );
@@ -117,19 +96,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 InkWell(
-                  onTap: () async {
-                    // final res = await _mauth.signInWithGoogle();
-                    // await _mauth.createUser(
-                    //   UserModel(
-                    //     id: res.user!.uid,
-                    //     name: res.user!.displayName ?? '',
-                    //     email: res.user!.email ?? '',
-                    //   ),
-                    // );
-                    updatelogin();
-                    Navigator.of(context).pushReplacementNamed('HomePage.id');
-                    // Fluttertoast.showToast(msg: 'اهلا بيك ');
-                  },
+                  onTap: signUpGoogle,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Container(
@@ -159,6 +126,48 @@ class LoginScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void signUpGoogle() async {
+    final res = await _mauth.signInWithGoogle();
+    await _mauth.createUser(
+      UserModel(
+        id: res.user!.uid,
+        name: res.user!.displayName ?? '',
+        email: res.user!.email ?? '',
+      ),
+    );
+    updatelogin();
+    Get.toEnd((() => HomeView()));
+    // Fluttertoast.showToast(msg: 'اهلا بيك ');
+  }
+
+  void newMethod() async {
+    if (_keyform.currentState!.validate()) {
+      try {
+        _keyform.currentState!.save();
+
+        final res = await _mauth.signIn(_email, _password);
+        updatelogin();
+        if (res.user!.uid == '9cCwmEojIderBAt420VaWpzHufS2' ||
+            res.user!.uid == '285001kIAJg7nSzz8eyBFkdMxZL2') {
+          // Fluttertoast.showToast(
+          //     msg: 'اهلا بيك كلنا حوليك ');
+          // Navigator.of(context)
+          //     .pushReplacementNamed('admin.id');
+          Get.off(() => const Admin());
+        } else {
+          Get.off(() => HomeView());
+          // Navigator.of(context)
+          //     .pushReplacementNamed('productshow.id');
+          // Fluttertoast.showToast(msg: 'اهلا بيك ');
+        }
+      } catch (e) {
+        // Fluttertoast.showToast(
+        //     msg: e.toString(),
+        //     toastLength: Toast.LENGTH_LONG);
+      }
+    }
   }
 
   void updatelogin() async {

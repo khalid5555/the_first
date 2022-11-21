@@ -1,34 +1,32 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:io';
 import 'dart:math';
 
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:image_picker/image_picker.dart';
-import 'package:the_first/widget%20screen/customtextfield.dart';
 
-import '../constants.dart';
 import '../db/db_store.dart';
 import '../models/product_model.dart';
-
-// import 'package:path/path.dart' as p;
+import '../shared/utils/app_colors.dart';
+import '../shared/widgets/app_text_field.dart';
 
 class AddProduct extends StatefulWidget {
-  static String id = 'addproduct';
+  const AddProduct({super.key});
 
   @override
-  _AddProductState createState() => _AddProductState();
+  State<AddProduct> createState() => _AddProductState();
 }
 
 class _AddProductState extends State<AddProduct> {
-  final GlobalKey<FormState> _kyform = GlobalKey<FormState>();
+  final GlobalKey<FormState> _kyForm = GlobalKey<FormState>();
   String? _name, _price, _description, _category, _id;
 
-  final _mystore = DbStore();
-  File? _myimage;
-  String? _url;
+  final _myStore = DbStore();
+  File? _myImage;
+  late String? _url;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,7 @@ class _AddProductState extends State<AddProduct> {
         ),
         body: SingleChildScrollView(
           child: Form(
-            key: _kyform,
+            key: _kyForm,
             child: Column(
               children: [
                 SizedBox(
@@ -54,25 +52,19 @@ class _AddProductState extends State<AddProduct> {
                           final image = await ImagePicker()
                               .pickImage(source: ImageSource.gallery);
                           setState(() {
-                            _myimage = File(image!.path);
+                            _myImage = File(image!.path);
                           });
                         },
                         child: _displayChild1()),
                   ),
                 ),
                 const SizedBox(height: 10),
-                CustomTextField(
-                  onClick: (val) {
-                    _name = val;
-                  },
+                AppTextField(
                   hint: ' اسم المنتج او الخدمة',
                   icon: Icons.topic_outlined,
                 ),
                 const SizedBox(height: 10),
-                CustomTextField(
-                  onClick: (val) {
-                    _price = val;
-                  },
+                AppTextField(
                   hint: "السعر",
                   keytyp: TextInputType.number,
                   icon: Icons.attach_money_outlined,
@@ -91,7 +83,7 @@ class _AddProductState extends State<AddProduct> {
                     decoration: InputDecoration(
                       prefixIcon: const Icon(
                         Icons.description,
-                        color: kPrColor,
+                        color: AppColors.kPrColor,
                       ),
                       filled: true,
                       hintText: 'ادخل الوصف',
@@ -122,11 +114,11 @@ class _AddProductState extends State<AddProduct> {
                 TextButton(
                   onPressed: () async {
                     await uploadImage(context);
-                    if (_kyform.currentState!.validate()) {
-                      _kyform.currentState!.save();
+                    if (_kyForm.currentState!.validate()) {
+                      _kyForm.currentState!.save();
 
                       try {
-                        await _mystore.addProduct(
+                        await _myStore.addProduct(
                           ProductModel(
                             upload: Timestamp.now(),
                             pName: _name!,
@@ -138,10 +130,10 @@ class _AddProductState extends State<AddProduct> {
                           ),
                         );
 
-                        _kyform.currentState!.reset();
+                        _kyForm.currentState!.reset();
                         // Fluttertoast.showToast(msg: 'تم الاضافة بنجاح....');
                         setState(() {
-                          _myimage = null;
+                          _myImage = null;
                         });
                       } catch (e) {
                         // Fluttertoast.showToast(
@@ -171,7 +163,7 @@ class _AddProductState extends State<AddProduct> {
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
       Reference ref = storage.ref('item_Pics').child('producspic $id.jpg');
-      UploadTask storageUploadTask = ref.putFile(_myimage!);
+      UploadTask storageUploadTask = ref.putFile(_myImage!);
       TaskSnapshot taskSnapshot = await storageUploadTask.whenComplete(
         () => const Text('success'),
       );
@@ -222,7 +214,7 @@ class _AddProductState extends State<AddProduct> {
   //   );
   // }
   Widget _displayChild1() {
-    if (_myimage == null) {
+    if (_myImage == null) {
       return Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Column(
@@ -238,7 +230,7 @@ class _AddProductState extends State<AddProduct> {
       );
     } else {
       return Image.file(
-        _myimage!,
+        _myImage!,
         fit: BoxFit.fill,
         width: double.infinity,
       );

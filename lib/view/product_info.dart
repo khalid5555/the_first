@@ -4,8 +4,8 @@
 // import 'package:buy_it/screens/user/CartScreen.dart';
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
 import '../models/product_model.dart';
+import '../shared/utils/app_colors.dart';
 // import 'package:provider/provider.dart';
 
 class ProductInfo extends StatefulWidget {
@@ -97,7 +97,7 @@ class _ProductInfoState extends State<ProductInfo> {
                             children: <Widget>[
                               ClipOval(
                                 child: Material(
-                                  color: kPrColor,
+                                  color: AppColors.kPrColor,
                                   child: GestureDetector(
                                     onTap: add,
                                     child: const SizedBox(
@@ -114,7 +114,7 @@ class _ProductInfoState extends State<ProductInfo> {
                               ),
                               ClipOval(
                                 child: Material(
-                                  color: kPrColor,
+                                  color: AppColors.kPrColor,
                                   child: GestureDetector(
                                     onTap: subtract,
                                     child: const SizedBox(
@@ -141,7 +141,7 @@ class _ProductInfoState extends State<ProductInfo> {
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(10),
                               topLeft: Radius.circular(10))),
-                      color: kPrColor,
+                      color: AppColors.kPrColor,
                       onPressed: () {
                         // addToCart(context, product);
                       },

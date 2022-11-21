@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:the_first/admin/add%20product.dart';
+import 'package:the_first/admin/editproduct.dart';
+import 'package:the_first/shared/utils/app_theme.dart';
+import 'package:the_first/view/home_view.dart';
+import 'package:the_first/view/products.dart';
 
 // import 'package:fluttertoast/fluttertoast.dart';
 // import '../db/category.dart';
 // import '../db/brand.dart';
 
 class Admin extends StatefulWidget {
-  static String id = 'admin';
+  const Admin({super.key});
+
   @override
   _AdminState createState() => _AdminState();
 }
@@ -28,45 +36,52 @@ class _AdminState extends State<Admin> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ElevatedButton(
-              // color: Colors.greenAccent,
+            GFButton(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              size: GFSize.LARGE,
+              textStyle: headingStyle,
+              text: 'اضافة المنتج',
+              type: GFButtonType.solid,
+              shape: GFButtonShape.pills,
               onPressed: () {
-                Navigator.of(context).pushNamed('addproduct.id');
+                Get.to(() => const AddProduct());
               },
-              child: const Text(
-                'اضافة المنتج',
-                style: TextStyle(fontSize: 20),
-              ),
             ),
-            ElevatedButton(
+            GFButton(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              size: GFSize.LARGE,
+              textStyle: headingStyle,
+              text: ' التعديل علي المنتج',
+              type: GFButtonType.solid,
+              shape: GFButtonShape.pills,
               onPressed: () {
-                Navigator.of(context).pushNamed('editproduct.id');
+                Get.to(() => Editproduct());
               },
-              child: const Text(
-                'التعديل علي المنتج',
-                style: TextStyle(fontSize: 20),
-              ),
             ),
-            ElevatedButton(
+            GFButton(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              size: GFSize.LARGE,
+              textStyle: headingStyle,
+              text: 'كل المنتجات',
+              type: GFButtonType.solid,
+              shape: GFButtonShape.pills,
               onPressed: () {
-                Navigator.of(context).pushNamed('productshow.id');
+                Get.to(() => const AllProducts());
               },
-              child: const Text(
-                'كل المنتجات',
-                style: TextStyle(fontSize: 20),
-              ),
             ),
-            ElevatedButton(
+            GFButton(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              size: GFSize.LARGE,
+              textStyle: headingStyle,
+              text: 'الصفحة الرئيسية',
+              type: GFButtonType.solid,
+              shape: GFButtonShape.pills,
               onPressed: () {
-                Navigator.of(context).pushNamed('HomePage.id');
+                Get.to(() => HomeView());
               },
-              child: const Text(
-                ' home',
-                style: TextStyle(fontSize: 20),
-              ),
             ),
           ],
         ),

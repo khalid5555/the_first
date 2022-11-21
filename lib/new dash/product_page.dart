@@ -4,8 +4,9 @@
 import 'package:flutter/material.dart';
 import 'package:the_first/models/product_model.dart';
 
-import '../constants.dart';
-import '../screen/splash_view.dart';
+import '../shared/utils/app_colors.dart';
+import '../shared/utils/app_theme.dart';
+import '../view/splash_view.dart';
 import 'product_display.dart';
 
 class ProductPage extends StatefulWidget {
@@ -57,7 +58,7 @@ class _ProductPageState extends State<ProductPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        iconTheme: const IconThemeData(color: kDarkGrey),
+        iconTheme: const IconThemeData(color: AppColors.kPrColor),
         actions: <Widget>[
           TextButton.icon(
             icon: const Icon(Icons.search_outlined),
@@ -69,7 +70,9 @@ class _ProductPageState extends State<ProductPage> {
         title: const Text(
           'Headphooooones',
           style: TextStyle(
-              color: kDarkGrey, fontWeight: FontWeight.w500, fontSize: 18.0),
+              color: AppColors.kPrColor,
+              fontWeight: FontWeight.w500,
+              fontSize: 18.0),
         ),
       ),
       body: Stack(

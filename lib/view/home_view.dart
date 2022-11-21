@@ -4,29 +4,31 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:the_first/auth/auth_page.dart';
 
-import '../constants.dart';
+import '../shared/utils/app_colors.dart';
+import '../shared/utils/app_theme.dart';
 import '../db/auth.dart';
 import '../db/db_store.dart';
-import '../functions.dart';
+import '../shared/utils/functions.dart';
 import '../models/product_model.dart';
-import '../widget screen/productView.dart';
+import '../shared/widgets/productView.dart';
 import 'product_info.dart';
 
-class HomeViwe extends StatefulWidget {
-  static String id = 'HomePage';
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  _HomeViweState createState() => _HomeViweState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViweState extends State<HomeViwe> {
+class _HomeViewState extends State<HomeView> {
   final _auth = Auth();
   late User _loggedUser;
   int _tabBarIndex = 0;
   // int _bottomBarIndex = 0;
   final _store = DbStore();
-  late List<ProductModel> _myproducts;
+  List<ProductModel>? _myProducts = [];
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -35,8 +37,7 @@ class _HomeViweState extends State<HomeViwe> {
           length: 4,
           child: Scaffold(
             bottomNavigationBar: CurvedNavigationBar(
-              // color: Colors.transparent,
-              // backgroundColor: Colors.transparent,
+              backgroundColor: AppColors.kbiColor,
               buttonBackgroundColor: Colors.transparent,
               height: 50,
               items: <Widget>[
@@ -80,7 +81,7 @@ class _HomeViweState extends State<HomeViwe> {
                   onDoubleTap: () async {
                     await _auth.signOut();
                     updatelogin();
-                    Navigator.popAndPushNamed(context, 'loginscreen.id');
+                    Get.to(() => const AuthPage());
                   },
                   child: Column(
                     children: const [
@@ -132,7 +133,7 @@ class _HomeViweState extends State<HomeViwe> {
               elevation: 0,
               bottom: TabBar(
                 isScrollable: true,
-                indicatorColor: kPrColor,
+                indicatorColor: AppColors.kPrColor,
                 onTap: (value) {
                   setState(() {
                     _tabBarIndex = value;
@@ -142,28 +143,36 @@ class _HomeViweState extends State<HomeViwe> {
                   Text(
                     'Jackets',
                     style: TextStyle(
-                      color: _tabBarIndex == 0 ? Colors.black : kUnActiveColor,
+                      color: _tabBarIndex == 0
+                          ? Colors.black
+                          : AppColors.kUnActiveColor,
                       fontSize: _tabBarIndex == 0 ? 17 : null,
                     ),
                   ),
                   Text(
                     'Trouser',
                     style: TextStyle(
-                      color: _tabBarIndex == 1 ? Colors.black : kUnActiveColor,
+                      color: _tabBarIndex == 1
+                          ? Colors.black
+                          : AppColors.kUnActiveColor,
                       fontSize: _tabBarIndex == 1 ? 18 : null,
                     ),
                   ),
                   Text(
                     'T-shirts',
                     style: TextStyle(
-                      color: _tabBarIndex == 2 ? Colors.black : kUnActiveColor,
+                      color: _tabBarIndex == 2
+                          ? Colors.black
+                          : AppColors.kUnActiveColor,
                       fontSize: _tabBarIndex == 2 ? 18 : null,
                     ),
                   ),
                   Text(
                     'Shoes',
                     style: TextStyle(
-                      color: _tabBarIndex == 3 ? Colors.black : kUnActiveColor,
+                      color: _tabBarIndex == 3
+                          ? Colors.black
+                          : AppColors.kUnActiveColor,
                       fontSize: _tabBarIndex == 3 ? 18 : null,
                     ),
                   ),
@@ -173,9 +182,9 @@ class _HomeViweState extends State<HomeViwe> {
             body: TabBarView(
               children: <Widget>[
                 jacketView(),
-                productsView('منتجاتنا', _myproducts),
-                productsView(kShoes, _myproducts),
-                productsView(kTshirts, _myproducts),
+                productsView('منتجاتنا', _myProducts!),
+                productsView(kShoes, _myProducts!),
+                productsView(kTshirts, _myProducts!),
               ],
             ),
           ),
@@ -261,9 +270,9 @@ class _HomeViweState extends State<HomeViwe> {
             //     // ),
             //   );
           }
-          _myproducts = products;
+          _myProducts = products;
           products.clear();
-          products = getProductByCategory('منتجاتنا', _myproducts);
+          products = getProductByCategory('منتجاتنا', _myProducts!);
           return GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -281,7 +290,7 @@ class _HomeViweState extends State<HomeViwe> {
                     Positioned.fill(
                       child: Image(
                         fit: BoxFit.fill,
-                        image: NetworkImage(_myproducts[index].pimageurl!),
+                        image: NetworkImage(_myProducts![index].pimageurl!),
                       ),
                     ),
                     Positioned(
@@ -299,11 +308,11 @@ class _HomeViweState extends State<HomeViwe> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  _myproducts[index].pName!,
+                                  _myProducts![index].pName!,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Text('\$ ${_myproducts[index].pPrice}')
+                                Text('\$ ${_myProducts![index].pPrice}')
                               ],
                             ),
                           ),

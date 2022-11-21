@@ -1,10 +1,11 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, annotate_overrides, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:the_first/auth/auth_page.dart';
 
 import 'home_view.dart';
-import 'singUp_view.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     controller =
-        AnimationController(duration: Duration(seconds: 5), vsync: this);
+        AnimationController(duration: Duration(seconds: 1), vsync: this);
     opacity = Tween<double>(begin: 1.0, end: 0.0).animate(controller)
       ..addListener(() {
         setState(() {});
@@ -36,27 +37,17 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-  Future<void> navigationPage() async {
-    // SharedPreferences prfs = await SharedPreferences.getInstance();
-    GetStorage prfs = GetStorage();
-    bool islogin = prfs.read('login');
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-      // ignore: unnecessary_null_comparison
-      return islogin == null || islogin == false
-          ? SingUp()
-          // : Container(
-          //     color: Colors.greenAccent,
-          //   );
-
-          : HomeViwe();
-    }));
+  void navigationPage() {
+    GetStorage box = GetStorage();
+    bool isLogin = box.read('login') ?? false;
+    Get.offAll(() => isLogin == false ? AuthPage() : HomeView(),
+        transition: Transition.zoom);
   }
 
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: Colors.brown),
       child: Scaffold(
-        backgroundColor: Colors.blueAccent,
         body: Column(
           children: <Widget>[
             Expanded(
