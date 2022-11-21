@@ -3,9 +3,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:the_first/screen/login_view.dart';
+import 'package:the_first/view/login_view.dart';
 
-import '../widget screen/customtextfield.dart';
+import '../db/auth.dart';
+import '../models/user_model.dart';
+import '../shared/widgets/app_text_field.dart';
 
 class SingUp extends StatefulWidget {
   const SingUp({super.key});
@@ -16,10 +18,12 @@ class SingUp extends StatefulWidget {
 
 class _SingUpState extends State<SingUp> {
   final _formkey = GlobalKey<FormState>();
+  final TextEditingController name = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  // String? email, password, name;
 
-  String? email, password, name;
-
-  // final _myAuth = Auth();
+  final _myAuth = Auth();
 
   @override
   Widget build(BuildContext context) {
@@ -38,31 +42,36 @@ class _SingUpState extends State<SingUp> {
               ),
             ),
             SizedBox(height: height * 10),
-            CustomTextField(
+            AppTextField(
+              myController: name,
               hint: 'أدخل  الاسم',
               icon: Icons.perm_identity,
               keytyp: TextInputType.name,
               onClick: (value) {
-                name = value;
+                // setState(() {
+                //   name = value;
+                // });
               },
             ),
             SizedBox(height: height),
-            CustomTextField(
+            AppTextField(
+              myController: email,
               keytyp: TextInputType.emailAddress,
               hint: 'أدخل ألاميل',
               icon: Icons.email,
               onClick: (value) {
-                email = value;
+                // setState(() {
+                //   email = value;
+                // });
               },
             ),
             SizedBox(height: height),
-            CustomTextField(
+            AppTextField(
+              myController: password,
               keytyp: TextInputType.number,
               hint: 'أدخل الرقم السري',
               icon: Icons.admin_panel_settings,
-              onClick: (value) {
-                password = value;
-              },
+              onClick: (value) {},
             ),
             SizedBox(height: height * 3),
             Padding(
@@ -72,23 +81,22 @@ class _SingUpState extends State<SingUp> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 onPressed: () async {
-                  // showLoading(context, true);
-                  // if (_formkey.currentState!.validate()) {
-                  //   _formkey.currentState!.save();
+                  if (_formkey.currentState!.validate()) {
+                    _formkey.currentState!.save();
 
-                  //   try {
-                  //     var res = await _myAuth.signUp(
-                  //         email!.trim(), password!.trim());
-                  //     await _myAuth.createUser(UserModel(
-                  //         id: res.user!.uid, name: name!, email: email!));
+                    try {
+                      var res = await _myAuth.signUp(
+                          email.text.trim(), password.text.trim());
+                      await _myAuth.createUser(UserModel(
+                          id: res.user!.uid,
+                          name: name.text,
+                          email: email.text));
 
-                  //     Get.to(() => LoginScreen());
-                  //   } catch (e) {
-                  //     print(e);
-                  //   }
-
-                  // showLoading(context, false);
-                  // }
+                      Get.to(() => LoginScreen());
+                    } catch (e) {
+                      print(e);
+                    }
+                  }
                 },
                 child: Text(
                   ' تسجيل حساب ',

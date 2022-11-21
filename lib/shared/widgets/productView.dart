@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../functions.dart';
-import '../models/product_model.dart';
+import '../../models/product_model.dart';
+import '../utils/functions.dart';
 
 Widget productsView(String pCategory, List<ProductModel> allProducts) {
   List<ProductModel> products;

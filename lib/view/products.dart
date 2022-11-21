@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:the_first/models/product_model.dart';
-import '../constants.dart';
+import '../shared/utils/app_theme.dart';
 
 import '../db/db_store.dart';
 

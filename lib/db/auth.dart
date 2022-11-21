@@ -1,18 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../constants.dart';
+import '../shared/utils/app_theme.dart';
 import '../models/user_model.dart';
 
 class Auth {
   final _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
-  GoogleSignIn googleSignIn2 = GoogleSignIn();
+  // GoogleSignIn googleSignIn2 = GoogleSignIn();
 
   Future<UserCredential> signUp(String em, String pass) async {
     final authResult =
@@ -40,10 +38,10 @@ class Auth {
   }
 
   Future<UserCredential> signInWithGoogle() async {
-    googleSignIn2.signIn();
+    // googleSignIn2.signIn();
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-    print('dddddd$googleUser');
+    print('user$googleUser');
     // Obtain the auth details from the request
     final GoogleSignInAuthentication googleAuth =
         await googleUser!.authentication;

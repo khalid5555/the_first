@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
-import '../new%20dash/product_list.dart';
+import '../shared/utils/app_theme.dart';
 
 class Detials extends StatefulWidget {
   static String id = 'detialsproduct';
@@ -13,16 +12,16 @@ class _DetialsState extends State<Detials> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(255, 255, 255, 0.12),
+      backgroundColor: const Color.fromRGBO(255, 255, 255, 0.12),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 0, top: 15),
+        title: const Padding(
+          padding: EdgeInsets.only(left: 0, top: 15),
           child: Align(
             alignment: Alignment.topLeft,
             child: (Text(
               kProductName,
-              style: const TextStyle(
+              style: TextStyle(
                   color: Color(0xfff19528),
                   fontWeight: FontWeight.w400,
                   fontFamily: "Oswald",
@@ -34,7 +33,7 @@ class _DetialsState extends State<Detials> {
       ),
       body: Stack(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Image.asset(

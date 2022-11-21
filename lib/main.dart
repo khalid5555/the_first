@@ -2,8 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:the_first/constants.dart';
-import 'package:the_first/screen/singUp_view.dart';
+import 'package:the_first/auth/auth_bindings.dart';
+import 'package:the_first/shared/utils/app_theme.dart';
+import 'package:the_first/view/splash_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,10 +22,12 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'The First',
-      theme: My_Themes.dk,
+      theme: AppThemes.lt,
+      getPages: const [],
+      initialBinding: AuthBindings(),
       themeMode: ThemeMode.light,
-      darkTheme: My_Themes.dk,
-      home: const SingUp(),
+      darkTheme: AppThemes.dk,
+      home: SplashScreen(),
     );
   }
 }
