@@ -7,10 +7,6 @@ import 'package:the_first/shared/utils/app_theme.dart';
 import 'package:the_first/view/home_view.dart';
 import 'package:the_first/view/products.dart';
 
-// import 'package:fluttertoast/fluttertoast.dart';
-// import '../db/category.dart';
-// import '../db/brand.dart';
-
 class Admin extends StatefulWidget {
   const Admin({super.key});
 
@@ -80,7 +76,7 @@ class _AdminState extends State<Admin> {
               type: GFButtonType.solid,
               shape: GFButtonShape.pills,
               onPressed: () {
-                Get.to(() => HomeView());
+                Get.to(() => const HomeView());
               },
             ),
           ],

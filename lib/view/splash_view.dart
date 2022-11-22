@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:the_first/admin/admin.dart';
 import 'package:the_first/auth/auth_page.dart';
+import 'package:the_first/models/user_model.dart';
 
 import 'home_view.dart';
 
@@ -37,10 +39,22 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
+  bool methodName() {
+    UserModel userModel = UserModel();
+    userModel.id == 'GlmYz214YbNgc0TAId7UwKtajQA3' ||
+        userModel.id == 'k62J3ToKQEOHvG8NUflJAWCiF3D2';
+    return true;
+  }
+
   void navigationPage() {
     GetStorage box = GetStorage();
     bool isLogin = box.read('login') ?? false;
-    Get.offAll(() => isLogin == false ? AuthPage() : HomeView(),
+    Get.offAll(
+        () => isLogin == false
+            ? AuthPage()
+            : methodName()
+                ? Admin()
+                : HomeView(),
         transition: Transition.zoom);
   }
 

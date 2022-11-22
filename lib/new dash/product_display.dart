@@ -66,9 +66,9 @@ class ProductDisplay extends StatelessWidget {
                     ),
                     child: Container(
                       child: Hero(
-                        tag: product!.pimageurl.toString(),
+                        tag: product!.pImageUrl.toString(),
                         child: Image.asset(
-                          product!.pimageurl.toString(),
+                          product!.pImageUrl.toString(),
                           fit: BoxFit.fill,
                           height: 230,
                           width: MediaQuery.of(context).size.width / 2.5,

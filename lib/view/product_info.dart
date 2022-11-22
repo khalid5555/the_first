@@ -29,7 +29,7 @@ class _ProductInfoState extends State<ProductInfo> {
             width: MediaQuery.of(context).size.width,
             child: Image(
               fit: BoxFit.fill,
-              image: NetworkImage(product.pimageurl!),
+              image: NetworkImage(product.pImageUrl!),
             ),
           ),
           Padding(

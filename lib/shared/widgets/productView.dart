@@ -22,7 +22,7 @@ Widget productsView(String pCategory, List<ProductModel> allProducts) {
               Positioned.fill(
                 child: Image(
                   fit: BoxFit.fill,
-                  image: AssetImage(product.pimageurl!),
+                  image: AssetImage(product.pImageUrl!),
                 ),
               ),
               Positioned(

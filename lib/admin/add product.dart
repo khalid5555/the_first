@@ -6,6 +6,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../db/db_store.dart';
@@ -28,6 +30,8 @@ class _AddProductState extends State<AddProduct> {
   File? _myImage;
   late String? _url;
 
+  bool? isError;
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -43,28 +47,30 @@ class _AddProductState extends State<AddProduct> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 170,
-                  width: 330,
+                  height: 180,
+                  width: double.infinity,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: OutlinedButton(
-                        onPressed: () async {
-                          final image = await ImagePicker()
-                              .pickImage(source: ImageSource.gallery);
-                          setState(() {
-                            _myImage = File(image!.path);
-                          });
-                        },
-                        child: _displayChild1()),
+                    padding: const EdgeInsets.all(10),
+                    child: _displayChild1(),
                   ),
                 ),
                 const SizedBox(height: 10),
                 AppTextField(
+                  onClick: (p0) {
+                    setState(() {
+                      p0 = _name;
+                    });
+                  },
                   hint: ' اسم المنتج او الخدمة',
                   icon: Icons.topic_outlined,
                 ),
                 const SizedBox(height: 10),
                 AppTextField(
+                  onClick: (p1) {
+                    setState(() {
+                      p1 = _price;
+                    });
+                  },
                   hint: "السعر",
                   keytyp: TextInputType.number,
                   icon: Icons.attach_money_outlined,
@@ -113,20 +119,20 @@ class _AddProductState extends State<AddProduct> {
                 const SizedBox(height: 20),
                 TextButton(
                   onPressed: () async {
+                    const GFLoader(type: GFLoaderType.android);
                     await uploadImage(context);
-                    if (_kyForm.currentState!.validate()) {
+                    if (_kyForm.currentState!.validate() || isError!) {
                       _kyForm.currentState!.save();
 
                       try {
                         await _myStore.addProduct(
                           ProductModel(
                             upload: Timestamp.now(),
-                            pName: _name!,
-                            pPrice: _price!,
-                            pimageurl: _url!,
-                            pCategory: _category!,
-                            pDescription: _description!,
-                            pId: _id!,
+                            pName: _name,
+                            pPrice: _price,
+                            pImageUrl: _url,
+                            pCategory: _category,
+                            pDescription: _description,
                           ),
                         );
 
@@ -158,14 +164,16 @@ class _AddProductState extends State<AddProduct> {
   }
 
   Future uploadImage(context) async {
-    int id = Random().nextInt(10000);
+    int id = Random().nextInt(100000000);
 
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
-      Reference ref = storage.ref('item_Pics').child('producspic $id.jpg');
+      Reference ref = storage.ref('products').child('pic $id.jpg');
       UploadTask storageUploadTask = ref.putFile(_myImage!);
       TaskSnapshot taskSnapshot = await storageUploadTask.whenComplete(
-        () => const Text('success'),
+        () {
+          Get.snackbar('Hi', 'i am a modern snackbar');
+        },
       );
 
       String url = await taskSnapshot.ref.getDownloadURL();
@@ -217,15 +225,27 @@ class _AddProductState extends State<AddProduct> {
     if (_myImage == null) {
       return Padding(
         padding: const EdgeInsets.only(top: 10),
-        child: Column(
-          children: const [
-            Icon(
-              Icons.camera_alt_sharp,
-              color: Colors.black,
-              size: 90,
-            ),
-            Text('اختار الصورة'),
-          ],
+        child: InkWell(
+          onTap: () async {
+            final image =
+                await ImagePicker().pickImage(source: ImageSource.gallery);
+            setState(() {
+              _myImage = File(image!.path);
+            });
+          },
+          child: Column(
+            children: [
+              const Icon(
+                Icons.camera_alt_sharp,
+                color: Colors.black,
+                size: 90,
+              ),
+              Text(
+                'اختار الصورة',
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
+            ],
+          ),
         ),
       );
     } else {
@@ -262,12 +282,19 @@ class _AddProductState extends State<AddProduct> {
               ),
             )
             .toList(),
-        onChanged: (myvalue) {
-          setState(() {
-            _category = myvalue;
-          });
+        onChanged: (myValue) {
+          if (myValue == 'اختار من الاقسام') {
+            setState(() {
+              isError = true;
+            });
+          } else {
+            setState(() {
+              _category = myValue;
+              isError = false;
+            });
+          }
         },
-        value: _category!,
+        value: _category,
       ),
     );
   }

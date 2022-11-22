@@ -142,9 +142,9 @@ class ProductCard extends StatelessWidget {
           ),
           Positioned(
             child: Hero(
-              tag: product.pimageurl.toString(),
+              tag: product.pImageUrl.toString(),
               child: Image.asset(
-                product.pimageurl.toString(),
+                product.pImageUrl.toString(),
                 height: height / 1.5,
                 width: width / 1.4,
                 fit: BoxFit.fill,

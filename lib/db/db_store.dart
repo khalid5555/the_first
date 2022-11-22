@@ -7,17 +7,8 @@ import '../models/user_model.dart';
 class DbStore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  addProduct(ProductModel myproduct) {
-    _firestore.collection(kProductsCollection).doc().set(myproduct.toMap());
-
-    // .set({
-    //   kProductName: myproduct.pName,
-    //   kProductPrice: myproduct.pPrice,
-    //   kProductcategory: myproduct.pCategory,
-    //   kProductDescription: myproduct.pDescription,
-    //   kProductimages: myproduct.pimage,
-    //   kProductid:myproduct.pId,
-    // });
+  addProduct(ProductModel myProduct) {
+    _firestore.collection(kProductsCollection).doc().set(myProduct.toMap());
   }
 
   Stream<QuerySnapshot> loadProduct() {

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:the_first/auth/auth_page.dart';
+import 'package:the_first/auth/auth_controller.dart';
 
 import '../shared/utils/app_colors.dart';
 import '../shared/utils/app_theme.dart';
@@ -24,6 +24,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final _auth = Auth();
+  AuthController controller = Get.find();
   late User _loggedUser;
   int _tabBarIndex = 0;
   // int _bottomBarIndex = 0;
@@ -78,11 +79,7 @@ class _HomeViewState extends State<HomeView> {
                     snackPosition: SnackPosition.TOP,
                     backgroundColor: Colors.redAccent,
                   ),
-                  onDoubleTap: () async {
-                    await _auth.signOut();
-                    updatelogin();
-                    Get.to(() => const AuthPage());
-                  },
+                  onDoubleTap: controller.signOut,
                   child: Column(
                     children: const [
                       Icon(
@@ -290,7 +287,7 @@ class _HomeViewState extends State<HomeView> {
                     Positioned.fill(
                       child: Image(
                         fit: BoxFit.fill,
-                        image: NetworkImage(_myProducts![index].pimageurl!),
+                        image: NetworkImage(_myProducts![index].pImageUrl!),
                       ),
                     ),
                     Positioned(

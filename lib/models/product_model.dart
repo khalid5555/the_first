@@ -6,7 +6,7 @@ class ProductModel {
   String? pName;
   String? pPrice;
   String? pDescription;
-  String? pimageurl;
+  String? pImageUrl;
   String? pCategory;
   String? pId;
   Timestamp? upload;
@@ -14,7 +14,7 @@ class ProductModel {
     this.pName,
     this.pPrice,
     this.pDescription,
-    this.pimageurl,
+    this.pImageUrl,
     this.pCategory,
     this.pId,
     this.upload,
@@ -25,7 +25,7 @@ class ProductModel {
       'pName': pName,
       'pPrice': pPrice,
       'pDescription': pDescription,
-      'pimage': pimageurl,
+      'pimage': pImageUrl,
       'pCategory': pCategory,
       'pId': pId,
       'upload': upload,
@@ -37,7 +37,7 @@ class ProductModel {
       pName: map['pName'],
       pPrice: map['pPrice'],
       pDescription: map['pDescription'],
-      pimageurl: map['pimage'],
+      pImageUrl: map['pimage'],
       pCategory: map['pCategory'],
       pId: map['pId'],
       upload: Timestamp.fromMillisecondsSinceEpoch(map['upload']),

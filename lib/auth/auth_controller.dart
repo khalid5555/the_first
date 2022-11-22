@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:the_first/auth/auth_bindings.dart';
 
 import '../admin/admin.dart';
 import '../db/auth.dart';
 import '../models/user_model.dart';
 import '../view/home_view.dart';
+import 'auth_page.dart';
 
 class AuthController extends GetxController {
   var formkey = GlobalKey<FormState>();
@@ -22,19 +24,21 @@ class AuthController extends GetxController {
 
         final res = await _myAuth.signIn(email.text, password.text);
         upDateLogin();
-        if (res.user!.uid == '9cCwmEojIderBAt420VaWpzHufS2' ||
-            res.user!.uid == '285001kIAJg7nSzz8eyBFkdMxZL2') {
+        if (res.user!.uid == 'GlmYz214YbNgc0TAId7UwKtajQA3' ||
+            res.user!.uid == 'k62J3ToKQEOHvG8NUflJAWCiF3D2') {
           //     msg: 'اهلا بيك كلنا حوليك '
 
           Get.off(
             () => const Admin(),
+            binding: AuthBindings(),
             transition: Transition.size,
             duration: const Duration(seconds: 1),
           );
         } else {
           Get.off(
-            () => HomeView(),
+            () => const HomeView(),
             transition: Transition.size,
+            binding: AuthBindings(),
             duration: const Duration(seconds: 1),
           );
           // Navigator.of(context)
@@ -60,7 +64,7 @@ class AuthController extends GetxController {
     );
     upDateLogin();
     Get.offAll(
-      () => HomeView(),
+      () => const HomeView(),
       transition: Transition.size,
       duration: const Duration(seconds: 1),
     );
@@ -71,5 +75,11 @@ class AuthController extends GetxController {
     GetStorage box = GetStorage();
     box.write('login', true);
     box.write('seen', true);
+  }
+
+  void signOut() async {
+    await _myAuth.signOut();
+    upDateLogin();
+    Get.to(() => const AuthPage(), binding: AuthBindings());
   }
 }
